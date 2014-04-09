@@ -110,20 +110,24 @@ var Rose = function(petalCount, petalSize, context, gravity) {
 		var posOffset = globals.petalSize / 2;
 		
 		for (var radians = 0; radians < 2 * Math.PI; radians += petalPiece) {
-			
+						
 			var x = (petalRadius * Math.sin(radians)) + posOffset;
 			var y = (petalRadius * Math.cos(radians)) + posOffset;
 			
+			if (globals.petalCount == 6) {
+				console.log(radians);
+			}
+						
 			globals.positions.push({x: x, y: y});
 			
 		}
 		
 	};
 	
-	var movePetals = function(petalCount) {
+	var movePetals = function(petalCount) {		
 		
 		var movePetal = setTimeout(function() {
-			
+						
 			setPosition(globals.rosePetals[petalCount], petalCount);
 			
 			petalCount++;
@@ -193,8 +197,10 @@ var Rose = function(petalCount, petalSize, context, gravity) {
 	
 	var rotatePetals = function(direction) {
 		
+		console.log('rotating');
+		
 		globals.rosePetals.each(function(i) {
-			
+						
 			var currentPos = $(this).data('petal-position');
 			
 			var nextPos;
@@ -208,6 +214,8 @@ var Rose = function(petalCount, petalSize, context, gravity) {
 				nextPos = currentPos === globals.positions.length - 1 ? 0 : parseInt(currentPos + 1);
 				
 			}
+			
+			//console.log('move ' + currentPos + ' to ' + nextPos);
 			
 			setPosition($(this), nextPos, 0);
 			
