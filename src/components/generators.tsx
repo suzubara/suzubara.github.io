@@ -5,7 +5,6 @@ import Notes from 'reveal.js/plugin/notes/notes'
 import 'reveal.js/dist/reveal.css'
 import 'reveal.js/dist/theme/dracula.css'
 
-import asyncImg from './async.png'
 
 function App() {
   const deckDivRef = useRef<HTMLDivElement>(null) // reference to deck container div
@@ -132,6 +131,7 @@ generator.next(); // {value: 3, done: true}
   )
 }`
 
+/*
   const genericConfirmationGenerator = `
     const useConfirmationGenerator
   `
@@ -169,6 +169,8 @@ generator.next(); // {value: 3, done: true}
     </div>
   )
 }`
+
+*/
 
   return (
     <div className="reveal" ref={deckDivRef}>
@@ -274,7 +276,7 @@ generator.next(); // {value: 3, done: true}
         </section>
         <section>
           <h4>the end!</h4>
-          <p>suzubara.github.io/generators</p>
+          <p>suzubara.github.io</p>
         </section>
       </div>
     </div>
