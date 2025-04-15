@@ -49,11 +49,13 @@ generator.next(); // {value: 2, done: false}
 generator.next(); // {value: 3, done: true}
 `
 
-  const asyncExample = `async function f() {
+ const asyncExample = `async function myFunction() {
+  await someOtherFunction();
   return 1;
 }
 `
   const modalCallback = `const MyImages = (): React.ReactElement => {
+  // this is just a hook for tracking modal state
   const confirmDeleteImageModal = useModal()
 
   const reallyDeleteImage = (): void => {
@@ -180,6 +182,11 @@ generator.next(); // {value: 3, done: true}
             Hi I'm Suzanne, I work at Square. At AustinJS a few months back
             someone was talking about generators, and said something about
             wanting to know if anyone had a production use case for them.
+            <br /><br />
+            I kind of have one? I learned about them at a previous job, where 
+            we had to build a complex onboarding flow. We used Redux sagas which 
+            use generators under the hood. So they're useful for building user 
+            flows, but why?
           </aside>
         </section>
         <section>
@@ -191,34 +198,37 @@ generator.next(); // {value: 3, done: true}
           </pre>
 
           <aside className="notes">
-            First: what is a generator? this is a lightning talk, not a deep
+            Ok so what is a generator? this is a lightning talk, not a deep
             dive, so I'm keeping it simple. A generator is a special kind of
-            function, you know it's special because of the star. It's like a
-            state machine. After defining a generator function, you invoke it
+            function, you know it's special because of the star.
+            <br /><br />
+            It's like a state machine. After defining a generator function, you invoke it
             and then call next to step through. It will pause at each yield.
-            When it returns, it's done. so what is that useful for? well I
-            learned about generators a couple jobs ago when we were building out
-            complex onboarding flows with logic branches. We used Redux sagas,
-            which uses generators to orchestrate actions. but now that we have
-            GraphQL and we just do everything on the server anyways, we don't
-            need Redux or Redux sagas for anything.
+            When it returns, it's done.
+            <br /><br />
+            so it's a function that can stop and wait for something before continuing.
+            Kind of like something else we know:
           </aside>
         </section>
         <section>
           <h4>async / await</h4>
 
-          <img src={asyncImg.src} />
+<pre>
+            <code data-trim className="language-typescript">
+              {asyncExample}
+            </code>
+          </pre>
 
           <aside className="notes">
-            First lets talk about async/await. This lets us start doing
-            something that might take some time, wait for it to finish, and then
-            continue with what we were doing. Before we had async/await or
-            promises, we had to do things with callbacks. IF THERE'S TIME -
-            callbacks
+             async/await! Async functions also fall in this category, it can stop and
+            wait for something before it continues. but it can only wait for another
+            async function. like making a network call or reading a file - things that are done by computers.
+            <br /><br />
+            this is useful but what if we want to wait for something that is done by a human?
           </aside>
         </section>
         <section>
-          <h4>async / await</h4>
+          <h4>Confirmation modal</h4>
           <pre>
             <code data-trim className="language-typescript">
               {modalCallback}
@@ -226,13 +236,17 @@ generator.next(); // {value: 3, done: true}
           </pre>
 
           <aside className="notes">
-            But this only works when the thing we're waiting on is a computer.
-            like querying a database or making an API call, the thing we're
-            waiting for can tell our code that its done and we can proceed.
+            Here's a simple example - a confirmation modal. Let's
+            say we have an app where you can upload images, and if you delete an
+            image we want to ask are you really sure?
+            <br /><br />
+            walk through code. we can do this by passing in event handlers which is fine.
+            but it gets kind of messy when you have to keep doing this. we have to
+            define a bunch of one off functions and then figure out how they all get hooked up together.
           </aside>
         </section>
         <section>
-          <h4>async / await</h4>
+          <h4>Confirmation modal generator</h4>
 
           <pre>
             <code data-trim className="language-typescript">
@@ -241,28 +255,26 @@ generator.next(); // {value: 3, done: true}
           </pre>
 
           <aside className="notes">
-            What if what we're waiting for isn't a computer, but a person? What
-            am I talking about? Here's an example - a confirmation modal. Let's
-            say we have an app where you can upload images, and if you delete an
-            image we want to ask are you really sure? You can do this with
-            callbacks. but also generators
+            What if we did it with a generator instead? walk through the code.
+            <br /><br />
+            now it's a little easier to see the flow and what happens at each step.
           </aside>
         </section>
         <section>
-          <h4>async / await</h4>
+          <h4>Confirmation modal (but better!)</h4>
           <pre>
             <code data-trim className="language-typescript">
-              {modalComponent}
+                    {modalComponent}
             </code>
           </pre>
 
           <aside className="notes">
-            What if what we're waiting for isn't a computer, but a person? What
-            am I talking about? Here's an example - a confirmation modal. Let's
-            say we have an app where you can upload images, and if you delete an
-            image we want to ask are you really sure? You can do this with
-            callbacks. but also generators
+            Walk through code. useGenerator is just a hook I wrote to help it play nice with React.
           </aside>
+        </section>
+        <section>
+          <h4>the end!</h4>
+          <p>suzubara.github.io/generators</p>
         </section>
       </div>
     </div>
